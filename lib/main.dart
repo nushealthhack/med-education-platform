@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'UploadPdf.dart';
+import 'UploadedImagesFolder.dart';
+import 'ImagesPage.dart';
+import 'ParsedTextPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +21,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyHomePage(title: 'EasyMedicine',),
         '/upload-pdf': (context) => UploadPdfPage(),
+        '/uploaded-images': (context) => MyUploadedImageFoldersPage(title: "Uploaded Images Folder"),
+        '/images': (context) => MyImagePage(title: "Uploaded Images"),
+        '/parsed-text': (context) => MyParsedTextPage(title: "Parsed Text")
       },
       theme: ThemeData(
         // This is the theme of your application.

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'EasyMedicine',
       initialRoute: '/',
       routes: {
-        '/': (context) => MyHomePage(title: 'EasyMedicine',),
+        '/': (context) => MyHomePage(title: 'EasyMedicine'),
         '/upload-pdf': (context) => UploadPdfPage(),
         '/uploaded-images': (context) => MyUploadedImageFoldersPage(title: "Uploaded Images Folder"),
         '/images': (context) => MyImagePage(title: "Uploaded Images"),

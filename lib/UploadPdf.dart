@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:image/image.dart' as imglib;
 import 'package:med_education_platform/modal_dialog.dart';
 import 'package:med_education_platform/recognization_page.dart';
 import 'package:med_education_platform/Utils/image_cropper_page.dart';
@@ -20,9 +21,12 @@ class UploadPdfPage extends StatefulWidget {
 
 class UploadPdfPageState extends State<UploadPdfPage> {
   late FilePickerResult _pickedFile;
-  late XFile imageTemp;
+  late XFile? imageTemp;
+  final ImagePicker _picker = ImagePicker();
   String _state = "";
   String _uploadImagestate = "";
+  
+  var nv21;
 
   Future<void> _pickPdf() async {
     _pickedFile = (await FilePicker.platform.pickFiles(
@@ -32,9 +36,6 @@ class UploadPdfPageState extends State<UploadPdfPage> {
     ))!;
   }
 
-  Future<void> _pickImage() async {
-    imageTemp = (await ImagePicker().pickImage(source: ImageSource.gallery))!;
-  }
 
   Future<void> _uploadPdf() async {
     final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
@@ -74,31 +75,51 @@ class UploadPdfPageState extends State<UploadPdfPage> {
     }
   }
 
+  Future<void> xFileToInputImage(XFile xFile) async {
+  }
+
   Future<void> _uploadImage() async {
-    // final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
-    
-    // try {
-    //   final Uint8List bytes = await imageTemp.readAsBytes();
+    final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
+    const int Rotation_0deg = 0;
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          imageTemp = pickedFile;
+        });
+      }
+      final File imageFile = File(pickedFile!.path);
+      final imglib.Image? image = imglib.decodeImage(await imageFile.readAsBytes());
+      final Uint8List imageBytes = imageTemp!.readAsBytes() as Uint8List;
+      final InputImageData inputImageData = InputImageData (
+        size: Size(image!.width.toDouble(), image.height.toDouble()),
+        imageRotation: InputImageRotation.rotation0deg,
+        inputImageFormat: nv21,
+        planeData: [
+          InputImagePlaneMetadata(
+            bytesPerRow: 2,
+            height: image.height,
+            width: image.width
+          )
+        ],
+      );
+      final InputImage inputImage = InputImage.fromBytes(bytes: imageBytes, inputImageData: inputImageData);
 
-    //   // Create an InputImage from the bytes
-    //   final InputImage inputImage = InputImage.fromBytes(
-    //     bytes: bytes,
-    //     inputImageData: InputImageData(
-    //       imageRotation: imageTemp.metadata?.rotation ?? InputImageRotation.rotation0deg,
-    //       inputImageFormat: InputImageFormatMethods.fromRawValue(imageTemp.format.group),
-    //       size: Size(imageTemp.width.toDouble(), imageTemp.height.toDouble()),
-    //     ),
-    //   );
-    //   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-    //   final RecognizedText recognizedText =
-    //     await textRecognizer.processImage(inputImage);
+      //Load the image file using decodeImage function 
+      //create inputimage object from decoded image using inputimage.frombytes function
+      print('imageruntimetype: ${imageTemp.runtimeType}');
 
-    //   Navigator.pushNamed(context, '/parsed-text', arguments: {'text': recognizedText.text});
+      final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+      final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
 
-    // } catch (error) {
-    //   // Handle exceptions such as network errors
-    //   print('Error: $error');
-    // }
+      Navigator.pushNamed(context, '/parsed-text', arguments: {'text': recognizedText.text});
+      textRecognizer.close();
+
+    } catch (error) {
+      // Handle exceptions such as network errors
+      print('Error: $error');
+    }
   }
 
   @override
@@ -138,7 +159,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () async {
-                      await _pickImage();
+                      await _uploadImage();
                     },
                     child: Text('Pick Image'),
                   ),
@@ -158,42 +179,6 @@ class UploadPdfPageState extends State<UploadPdfPage> {
             ],
       ),
     ),
-    floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          imagePickerModal(context, onCameraTap: () {
-            pickImage(source: ImageSource.camera).then((value) {
-              if (value != '') {
-                imageCropperView(value, context).then((value) {
-                  if (value != '') {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (_) => RecognizePage(
-                          path: value,
-                        ),
-                      ),
-                    );
-                  }
-                });
-              }
-            });
-          }, onGalleryTap: () {
-            pickImage(source: ImageSource.gallery).then((value) {
-              if (value != '') {
-                Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (_) => RecognizePage(
-                          path: value,
-                        ),
-                      ),
-                    );
-              }
-            });
-          });
-        },
-        tooltip: 'Increment',
-        label: const Text("Scan photo"),
-      ), );
+      );
   }
 }

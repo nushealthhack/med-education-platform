@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
@@ -13,6 +14,7 @@ import 'package:med_education_platform/modal_dialog.dart';
 import 'package:med_education_platform/recognization_page.dart';
 import 'package:med_education_platform/Utils/image_cropper_page.dart';
 import 'package:med_education_platform/Utils/image_picker_class.dart';
+import 'package:flutter/services.dart';
 
 class UploadPdfPage extends StatefulWidget {
   @override
@@ -25,8 +27,8 @@ class UploadPdfPageState extends State<UploadPdfPage> {
   final ImagePicker _picker = ImagePicker();
   String _state = "";
   String _uploadImagestate = "";
-  
-  var nv21;
+
+  final InputImageFormat nv21 = InputImageFormat.nv21;
 
   Future<void> _pickPdf() async {
     _pickedFile = (await FilePicker.platform.pickFiles(
@@ -39,7 +41,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
 
   Future<void> _uploadPdf() async {
     final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
-    
+
     try {
       // Read the PDF file as bytes
       List<int> pdfBytes = _pickedFile.files.first.bytes as List<int>;
@@ -91,7 +93,8 @@ class UploadPdfPageState extends State<UploadPdfPage> {
       }
       final File imageFile = File(pickedFile!.path);
       final imglib.Image? image = imglib.decodeImage(await imageFile.readAsBytes());
-      final Uint8List imageBytes = imageTemp!.readAsBytes() as Uint8List;
+      final Uint8List imageBytes = await imageFile.readAsBytes(); // fix below error
+      // final Uint8List imageBytes = imageTemp!.readAsBytes() as Uint8List; //old ZT one
       final InputImageData inputImageData = InputImageData (
         size: Size(image!.width.toDouble(), image.height.toDouble()),
         imageRotation: InputImageRotation.rotation0deg,
@@ -118,7 +121,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
 
     } catch (error) {
       // Handle exceptions such as network errors
-      print('Error: $error');
+      print('Error pick image: $error');
     }
   }
 

@@ -5,6 +5,7 @@ import 'UploadedImagesFolder.dart';
 import 'ImagesPage.dart';
 import 'ParsedTextPage.dart';
 import 'chat_screen.dart';
+import 'UploadPdf_Python.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         '/uploaded-images': (context) => MyUploadedImageFoldersPage(title: "Uploaded Images Folder"),
         '/images': (context) => MyImagePage(title: "Uploaded Images"),
         '/parsed-text': (context) => MyParsedTextPage(title: "Parsed Text"),
-        '/chat':(context)=>MyChatPage()
+        '/chat':(context)=>MyChatPage(),
+        '/upload-pdf-python':(context)=>Myupload()
       },
       theme: ThemeData(
         // This is the theme of your application.

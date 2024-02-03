@@ -4,15 +4,20 @@ import 'package:http/http.dart' as http;
 
 
 class MyChatPage extends StatelessWidget {
+  final String? initialText;
+  MyChatPage({this.initialText});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChatScreen(),
+      home: ChatScreen(initialText: initialText),
     );
   }
 }
 
 class ChatScreen extends StatefulWidget {
+  final String? initialText;
+
+  ChatScreen({this.initialText});
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -20,7 +25,15 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _textEditingController = TextEditingController();
   List<ChatMessage> _messages = [];
+  @override
+  void initState() {
+    super.initState();
 
+    // Fill the text controller with initial text if available
+    if (widget.initialText != null) {
+      _textEditingController.text = widget.initialText!;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       // Make a POST request to the API with the entered text
       try {
-        var access_token = "ya29.a0AfB_byDJrBKiUzCiaTDwYYApL-B5wug9_OEvxTZp-MJgseqFPWMJLUxjjrvqFcKC32_KqqsGLLqyVHh-TaRcGvQhibyCgQUN4g3sFrghVh6950YEB7ohIRTrwlvkfsCxb9_JcAdWdqDdbvWyLKVXcUSpSchz-eSaF2ovOWcf0xcZvYWa_LhdRtk6xtv4F8jB9kqYAXONWBYV1cBKuirDwHFqTxeK8v4XM01NFNYa9d6w4d2Kcfhewipq8SW3K2m1k2awB9xLwqU9C6z5_tDnqvelQ0vAZY0BmMHG1pwDCJ3qevwUnbgpNEWh0sjX7dVSBcgUQNgn3UE0Srt1mA-EGeO6ElgPtCrwF_nVqoNwg1Rq_e3bB57jXLfXMA8iXwHeoi5dbLykOAf2BNg2pgFLmdT0n4fDx9gmaCgYKAdwSARMSFQHGX2MiRK3dEpmf6uu4NsAHSrLmqA0423";
+        var access_token = "ya29.a0AfB_byALpCYr_nUAsyhi9kEGAZ2sZlDZxqBcU_PqJ5WWW44zGh47VV8QEyGGB17e4qzlPPM77Px_mqtm6IBWxdlxA3Uhvd6fp2VO-T96L4Su-RHm1gg72-pu4Iy_KnwRjqUBpHvGVwVlATAn65VC8eE5Wm4MCk0Wc8c66k9EwrgFXeRfJjseIKhl3yJFcTXPR_S9fCTWtWMWm2C0A2iADSbTScSNYoBzkW8EneZ_dba5eZDiSzMAl95O6wXMBCXniRBt1mri66cCclUOunQORNGgXApWPkR3eqEHTNFprwWSz-Q3WeRbjbRxAk5Varp1xAC0HJ9KDi0_VkUbZcmozlXABH8GcEUpjpBnlA-aftFLcySKsQ5cPBL3rgTAJYaumd37ciVuelzAz9h1Cdvuh9r3L2MmmAr-aCgYKAbgSARMSFQHGX2Mi8MIP-xmQsZV2IOVHAZd-YA0423";
         var url = "https://us-central1-aiplatform.googleapis.com/v1/projects/healthhack-412317/locations/us-central1/publishers/google/models/chat-bison:predict?access_token=$access_token";
         print(url);
         final response = await http.post(

@@ -87,6 +87,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/uploaded-images');
               },
               child: Text('Go to Uploaded Images Page'),
+
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/chat');
+              },
+              child: Text('Chatbot for queries'),
+
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/upload-pdf-python');
+              },
+              child: Text('Upload PDF'),
+
             )
           ],
         ),

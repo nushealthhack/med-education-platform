@@ -77,12 +77,46 @@ class UploadPdfPageState extends State<UploadPdfPage> {
     }
   }
 
-
-
   Future<void> _uploadImage() async {
 
-    // final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
+    // final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';\
+
+    late double _imageHeight;
+    late double _imageWidth;
+    XFile _xFile;
     try {
+      // Read the image file as bytes
+      _pickedFile = (await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png',],
+    ))!;
+
+    //file picker result to file
+    final File convertedFile = File(_pickedFile.files.single.path!);
+    final decodedImage = await decodeImageFromList(await convertedFile.readAsBytes());
+    setState(() {
+    _imageHeight = decodedImage.height.toDouble();
+    _imageWidth = decodedImage.width.toDouble();
+    });
+    final Uint8List imageBytes = convertedFile.readAsBytesSync();
+    final InputImageData inputImageData = InputImageData (
+      size: Size(_imageWidth, _imageHeight),
+      imageRotation: InputImageRotation.rotation0deg,
+      inputImageFormat: nv21,
+      planeData: [
+        InputImagePlaneMetadata(
+          bytesPerRow: 2,
+          height: 2,
+          width: 2
+        )
+      ],
+    );
+      final InputImage inputImage = InputImage.fromBytes(bytes: imageBytes, inputImageData: inputImageData);
+
+      final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+      final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
+
+
     } catch (error) {
       // Handle exceptions such as network errors
       print('Error pick image: $error');

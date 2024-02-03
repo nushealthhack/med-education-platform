@@ -161,7 +161,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () async {
-                        await _uploadImage();
+                        Navigator.pushNamed(context, '/recognise-page');
                     },
                     child: Text('Upload Image'),
                   ),

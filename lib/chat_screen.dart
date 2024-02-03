@@ -89,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       // Make a POST request to the API with the entered text
       try {
-        var access_token = "ya29.a0AfB_byALpCYr_nUAsyhi9kEGAZ2sZlDZxqBcU_PqJ5WWW44zGh47VV8QEyGGB17e4qzlPPM77Px_mqtm6IBWxdlxA3Uhvd6fp2VO-T96L4Su-RHm1gg72-pu4Iy_KnwRjqUBpHvGVwVlATAn65VC8eE5Wm4MCk0Wc8c66k9EwrgFXeRfJjseIKhl3yJFcTXPR_S9fCTWtWMWm2C0A2iADSbTScSNYoBzkW8EneZ_dba5eZDiSzMAl95O6wXMBCXniRBt1mri66cCclUOunQORNGgXApWPkR3eqEHTNFprwWSz-Q3WeRbjbRxAk5Varp1xAC0HJ9KDi0_VkUbZcmozlXABH8GcEUpjpBnlA-aftFLcySKsQ5cPBL3rgTAJYaumd37ciVuelzAz9h1Cdvuh9r3L2MmmAr-aCgYKAbgSARMSFQHGX2Mi8MIP-xmQsZV2IOVHAZd-YA0423";
+        var access_token = "ya29.a0AfB_byC0ttqUK-e03SgPR6Vrz76q6YS3kZ9R-3_ANqzFOj7gwNNpFw50SFMEZkep79jZvWLoLY_j38G49LJ38ibiLsDLQ9EKVxDXSgMyBPLpdI4bCIKJORCXi7Rfzf_N6QhRvErAWFWqysAZCc5i6SAbmrgKGUT55P7A9pywGLVQDFIaTAuDNh8RAKYaSkbeRkYikePo6GK5oUYSMP7kNqxf5Je9RO4GJhg4RgeXutgfsXcXVxKHtU1tmF0ldqxUtGnw4mzsugzhUXc0WX-KagGha9O-qJ9yzSTT3nbQSOg38FvuXy-Tn7o78PsT0mukhKjQCNFkQK9GLnahOdMDO8tDiuU-9SApmK_0QN81qD4qAbz7eA_CfUJqrefpVW-WL0VrOMFwSY1z6Apayapkgk_HHvVh3JIaCgYKAXcSARMSFQHGX2Miod4XkKee_l3vDr5jvCuAyg0422";
         var url = "https://us-central1-aiplatform.googleapis.com/v1/projects/healthhack-412317/locations/us-central1/publishers/google/models/chat-bison:predict?access_token=$access_token";
         print(url);
         final response = await http.post(
@@ -98,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
           body: jsonEncode({
           "instances": [
           {
-          "context": "You are to explain medical reports to people who does not understand complex terms. Please breakdown the medical jargons and explain it to them as simply as you can. Explain if it is a positive or negative result",
+          "context": "You are to explain medical reports to people who does not understand complex terms. Please breakdown the medical jargons and explain it to them as simply as you can. Explain if it is a positive or negative result. After this is done if the result is negative please provide a suggestion to help combat the issue",
           "examples": [
           {
           "input": {

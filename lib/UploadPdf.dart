@@ -23,7 +23,7 @@ class UploadPdfPage extends StatefulWidget {
 
 class UploadPdfPageState extends State<UploadPdfPage> {
   late FilePickerResult _pickedFile;
-  late XFile? imageTemp;
+  late XFile _xFile;
   final ImagePicker _picker = ImagePicker();
   String _state = "";
   String _uploadImagestate = "";
@@ -77,48 +77,12 @@ class UploadPdfPageState extends State<UploadPdfPage> {
     }
   }
 
-  Future<void> xFileToInputImage(XFile xFile) async {
-  }
+
 
   Future<void> _uploadImage() async {
-    final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
-    const int Rotation_0deg = 0;
+
+    // final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';
     try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          imageTemp = pickedFile;
-        });
-      }
-      final File imageFile = File(pickedFile!.path);
-      final imglib.Image? image = imglib.decodeImage(await imageFile.readAsBytes());
-      final Uint8List imageBytes = await imageFile.readAsBytes(); // fix below error
-      // final Uint8List imageBytes = imageTemp!.readAsBytes() as Uint8List; //old ZT one
-      final InputImageData inputImageData = InputImageData (
-        size: Size(image!.width.toDouble(), image.height.toDouble()),
-        imageRotation: InputImageRotation.rotation0deg,
-        inputImageFormat: nv21,
-        planeData: [
-          InputImagePlaneMetadata(
-            bytesPerRow: 2,
-            height: image.height,
-            width: image.width
-          )
-        ],
-      );
-      final InputImage inputImage = InputImage.fromBytes(bytes: imageBytes, inputImageData: inputImageData);
-
-      //Load the image file using decodeImage function 
-      //create inputimage object from decoded image using inputimage.frombytes function
-      print('imageruntimetype: ${imageTemp.runtimeType}');
-
-      final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-      final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
-
-      Navigator.pushNamed(context, '/parsed-text', arguments: {'text': recognizedText.text});
-      textRecognizer.close();
-
     } catch (error) {
       // Handle exceptions such as network errors
       print('Error pick image: $error');
@@ -145,7 +109,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
                     child: Text('Pick PDF'),
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
+                ElevatedButton(
                     onPressed: () async {
                       await _uploadPdf();
                     },
@@ -160,16 +124,10 @@ class UploadPdfPageState extends State<UploadPdfPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () async {
-                      await _uploadImage();
-                    },
-                    child: Text('Pick Image'),
-                  ),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () async {
-                      await _uploadImage();
+                        await _uploadImage();
                     },
                     child: Text('Upload Image'),
                   ),

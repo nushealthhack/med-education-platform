@@ -6,6 +6,7 @@ import 'ImagesPage.dart';
 import 'ParsedTextPage.dart';
 import 'chat_screen.dart';
 import 'UploadPdf_Python.dart';
+import 'TextViewer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         '/images': (context) => MyImagePage(title: "Uploaded Images"),
         '/parsed-text': (context) => MyParsedTextPage(title: "Parsed Text"),
         '/chat':(context)=>MyChatPage(),
-        '/upload-pdf-python':(context)=>Myupload()
+        '/upload-pdf-python':(context)=>Myupload(),
+        '/text-viewer' : (context) => TextViewerPage(title: "Text Viewer"),
       },
       theme: ThemeData(
         // This is the theme of your application.

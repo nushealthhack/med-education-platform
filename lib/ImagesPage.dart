@@ -144,6 +144,11 @@ class ImageCell extends StatelessWidget {
             height: 500,
             fit: BoxFit.cover, // Choose the appropriate BoxFit
           ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed (context, '/text-viewer', arguments: {'text': image});
+            }
+          ),
           SizedBox(height: 8.0), // Adjust the spacing between image and text
           // Text(
           //   imageUrl,

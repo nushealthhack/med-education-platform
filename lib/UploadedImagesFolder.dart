@@ -55,7 +55,6 @@ class TableWidget extends StatelessWidget {
 
   Future<List<String>> fetchImageUrls() async {
     final response = await http.get(Uri.parse(apiUrl));
-
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       return List<String>.from(data.map((dynamic item) => item));

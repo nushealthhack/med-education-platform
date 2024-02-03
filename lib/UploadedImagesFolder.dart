@@ -123,7 +123,7 @@ class ImageCell extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => {
-              Navigator.pushNamed(context, '/images', arguments: {imageUrl})
+              Navigator.pushNamed(context, '/images', arguments: {'imageUrl': imageUrl})
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),

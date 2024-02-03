@@ -22,8 +22,7 @@ class _MyParsedTextPageState extends State<MyParsedTextPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     final String text = arguments['text'];
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

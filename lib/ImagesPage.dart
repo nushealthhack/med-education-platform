@@ -24,8 +24,7 @@ class _MyImagePageState extends State<MyImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     final String url = arguments['imageUrl'];
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -56,7 +55,7 @@ class TableWidget extends StatelessWidget {
   TableWidget({required this.url});
   final String url;
 
-  final String apiUrl = 'http://127.0.0.1:5000/get-images-folder?folder='; // Replace with your API endpoint
+  final String apiUrl = 'http://127.0.0.1:5000/get-images-folders?folder='; // Replace with your API endpoint
 
   Future<List<String>> fetchImageUrls() async {
     final response = await http.get(Uri.parse(apiUrl + url));
@@ -64,8 +63,17 @@ class TableWidget extends StatelessWidget {
     if (response.statusCode == 200) {
       // final List<dynamic> data = json.decode(response.body);
       // return List<String>.from(data.map((dynamic item) => item));
-      print(response.body);
-      return [];
+      final String body = response.body;
+      final images = json.decode(body) as Map<String, dynamic>;
+      var flutterImages = [];
+      for (var imageBase64String in images['images']) {
+        var str = imageBase64String.toString();
+        flutterImages.add(str);
+      } 
+      return flutterImages.map((dynamic element) {
+        return element.toString();
+      }).toList();
+
     } else {
       throw Exception('Failed to load image URLs');
     }
@@ -86,14 +94,14 @@ class TableWidget extends StatelessWidget {
           return ListView.builder(
             itemCount: (snapshot.data!.length / 2).ceil(),
             itemBuilder: (context, index) {
-              // if (snapshot.data!.length % 2 != 0 && index == (snapshot.data!.length - 1) / 2) {
-              //   return TableRowWidget(
-              //     rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 1),
-              //   );
-              // }
-              // return TableRowWidget(
-              //   rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 2),
-              // );
+              if (snapshot.data!.length % 2 != 0 && index == (snapshot.data!.length - 1) / 2) {
+                return TableRowWidget(
+                  rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 1),
+                );
+              }
+              return TableRowWidget(
+                rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 2),
+              );
               return null;
             },
           );
@@ -112,38 +120,35 @@ class TableRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Row(
-        children: rowImageUrls.map((imageUrl) => ImageCell(imageUrl: imageUrl)).toList(),
+        children: rowImageUrls.map((imageString) => ImageCell(image: imageString)).toList(),
       )
     );
   }
 }
 
 class ImageCell extends StatelessWidget {
-  final String imageUrl;
+  final String image;
 
-  ImageCell({required this.imageUrl});
+  ImageCell({required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () => {
-              Navigator.pushNamed(context, '/images', arguments: {imageUrl})
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/images/folder-icon.jpg'),
-            ),
+          Image.memory(
+            base64Decode(image),
+            width: 500,
+            height: 500,
+            fit: BoxFit.cover, // Choose the appropriate BoxFit
           ),
-          Image.asset('assets/images/folder-icon.jpg'),
           SizedBox(height: 8.0), // Adjust the spacing between image and text
-          Text(
-            imageUrl,
-            style: TextStyle(fontSize: 16.0),
-          ),
+          // Text(
+          //   imageUrl,
+          //   style: TextStyle(fontSize: 16.0),
+          // ),
         ],
       ),
     );

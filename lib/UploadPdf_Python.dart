@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Import http package for MediaType
@@ -60,9 +61,10 @@ class _MyHomePageState extends State<upload> {
 
       if (response.statusCode == 200) {
         // Successful response
-        var responseBody = await response.stream.bytesToString();
+        var responseBody = jsonDecode(await response.stream.bytesToString());
+        print(responseBody);
         setState(() {
-          _extractedText = responseBody;
+          _extractedText = responseBody['result'];
         });
       } else {
         // Error response
@@ -92,6 +94,7 @@ class _MyHomePageState extends State<upload> {
     return Scaffold(
       appBar: AppBar(
         title: Text('PDF Uploader'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(

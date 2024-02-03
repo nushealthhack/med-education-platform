@@ -23,6 +23,47 @@ class upload extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<upload> {
+
+    @override
+  Widget build(BuildContext context) {
+  final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+  final String _extractedText = arguments['text'];
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('PDF Uploader'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: _pickFile,
+              child: Text('Pick PDF File'),
+            ),
+            SizedBox(height: 20),
+            if (_pickedFile != null)
+              Text(
+                'Selected File: ${_pickedFile!.path}',
+                style: TextStyle(fontSize: 16),
+              ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _uploadFile,
+              child: Text('Upload PDF File'),
+            ),
+            SizedBox(height: 20),
+            if (_extractedText != null)
+              ElevatedButton(
+                onPressed: _sendToChatBot,
+                child: Text('Send to Chat Bot'),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   File? _pickedFile;
   String? _extractedText;
 
@@ -89,41 +130,5 @@ class _MyHomePageState extends State<upload> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF Uploader'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: _pickFile,
-              child: Text('Pick PDF File'),
-            ),
-            SizedBox(height: 20),
-            if (_pickedFile != null)
-              Text(
-                'Selected File: ${_pickedFile!.path}',
-                style: TextStyle(fontSize: 16),
-              ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _uploadFile,
-              child: Text('Upload PDF File'),
-            ),
-            SizedBox(height: 20),
-            if (_extractedText != null)
-              ElevatedButton(
-                onPressed: _sendToChatBot,
-                child: Text('Send to Chat Bot'),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
+
 }

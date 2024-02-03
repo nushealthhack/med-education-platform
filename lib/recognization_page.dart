@@ -1,64 +1,33 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'UploadPdf_Python.dart';
 
-class RecognizePage extends StatefulWidget {
-  final String? path;
-  const RecognizePage({Key? key, this.path}) : super(key: key);
-
-  @override
-  State<RecognizePage> createState() => _RecognizePageState();
-}
-
-class _RecognizePageState extends State<RecognizePage> {
-  bool _isBusy = false;
-
-  TextEditingController controller = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final InputImage inputImage = InputImage.fromFilePath(widget.path!);
-
-    processImage(inputImage);
-  }
-
+class MyRecognisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text("recognized page")),
-        body: _isBusy == true
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container(
-                padding: const EdgeInsets.all(20),
-                child: TextFormField(
-                  maxLines: MediaQuery.of(context).size.height.toInt(),
-                  controller: controller,
-                  decoration:
-                      const InputDecoration(hintText: "Text goes here..."),
-                ),
-              ));
-  }
-
-  void processImage(InputImage image) async {
-    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-
-    setState(() {
-      _isBusy = true;
-    });
-
-    final RecognizedText recognizedText =
-        await textRecognizer.processImage(image);
-
-    controller.text = recognizedText.text;
-
-    ///End busy state
-    setState(() {
-      _isBusy = false;
-    });
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Text Page')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context, '/upload-pdf-python', arguments: {'text': 'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.'}
+                  );
+                },
+                child: Text('Go to Second Page'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

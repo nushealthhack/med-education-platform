@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'modal_dialog.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -69,9 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -81,21 +80,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/upload-pdf');
               },
               child: Text('Go to Upload Pdf Page'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
             ),
+            const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/uploaded-images');
               },
               child: Text('Go to Uploaded Images Page'),
-
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
             ),
+            const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/chat');
               },
               child: Text('Chatbot for queries'),
-
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
             ),
+            const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/upload-pdf-python');
@@ -107,7 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: imagePickerModal(context, onCameraTap: () {
+          Navigator.pushNamed(context, '/camera');
+        }, onGalleryTap: () {
+          Navigator.pushNamed(context, '/selected-image');
+        }),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

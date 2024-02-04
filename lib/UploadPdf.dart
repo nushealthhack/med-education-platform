@@ -78,9 +78,6 @@ class UploadPdfPageState extends State<UploadPdfPage> {
   }
 
   Future<void> _uploadImage() async {
-
-    // final String apiUrl = 'http://127.0.0.1:5000/upload-pdf';\
-
     late double _imageHeight;
     late double _imageWidth;
     XFile _xFile;

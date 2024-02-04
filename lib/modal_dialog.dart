@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-void imagePickerModal(BuildContext context,
-    {VoidCallback? onCameraTap, VoidCallback? onGalleryTap}) {
+imagePickerModal(BuildContext context,
+    { onCameraTap, onGalleryTap}) {
   showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -16,7 +16,7 @@ void imagePickerModal(BuildContext context,
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(15),
-                    decoration: const BoxDecoration(color: Colors.grey),
+                    decoration: const BoxDecoration(color: Colors.green),
                     child: const Text("Camera",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
@@ -25,12 +25,14 @@ void imagePickerModal(BuildContext context,
               ),
               const SizedBox(height: 10),
               GestureDetector(
-                onTap: onGalleryTap,
+                onTap: () {
+                Navigator.pushNamed (context, '/selected-image');
+              },
                 child: Card(
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(15),
-                    decoration: const BoxDecoration(color: Colors.grey),
+                    decoration: const BoxDecoration(color: Colors.green),
                     child: const Text("Gallery",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),

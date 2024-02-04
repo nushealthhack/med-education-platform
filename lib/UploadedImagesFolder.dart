@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'image_screen.dart';
 
 class MyUploadedImageFoldersPage extends StatefulWidget {
   const MyUploadedImageFoldersPage({super.key, required this.title});
@@ -43,56 +44,55 @@ class _MyUploadedImageFolderPageState extends State<MyUploadedImageFoldersPage> 
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: TableWidget()
+        // child: TableWidget()
       ),
     );
   }
 }
 
-class TableWidget extends StatelessWidget {
+// class TableWidget extends StatelessWidget {
 
-  final String apiUrl = 'http://127.0.0.1:5000/get-folders'; // Replace with your API endpoint
-
-  Future<List<String>> fetchImageUrls() async {
-    final response = await http.get(Uri.parse(apiUrl));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return List<String>.from(data.map((dynamic item) => item));
-    } else {
-      throw Exception('Failed to load image URLs');
-    }
-  }
+  // final String apiUrl = 'http://127.0.0.1:5000/get-folders'; 
+  // Future<List<String>> fetchImageUrls() async {
+  //   final response = await http.get(Uri.parse(apiUrl));
+  //   if (response.statusCode == 200) {
+  //     final List<dynamic> data = json.decode(response.body);
+  //     return List<String>.from(data.map((dynamic item) => item));
+  //   } else {
+  //     throw Exception('Failed to load image URLs');
+  //   }
+  // }
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<String>>(
-      future: fetchImageUrls(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No image URLs available'));
-        } else {
-          return ListView.builder(
-            itemCount: (snapshot.data!.length / 2).ceil(),
-            itemBuilder: (context, index) {
-              if (snapshot.data!.length % 2 != 0 && index == (snapshot.data!.length - 1) / 2) {
-                return TableRowWidget(
-                  rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 1),
-                );
-              }
-              return TableRowWidget(
-                rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 2),
-              );
-            },
-          );
-        }
-      },
-    );
-  }
-}
+  // Widget build(BuildContext context) {
+    // return FutureBuilder<List<String>>(
+      // future: fetchImageUrls(),
+      // builder: (context, snapshot) {
+      //   if (snapshot.connectionState == ConnectionState.waiting) {
+      //     return Center(child: CircularProgressIndicator());
+      //   } else if (snapshot.hasError) {
+      //     return Center(child: Text('Error: ${snapshot.error}'));
+      //   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      //     return Center(child: Text('No image URLs available'));
+      //   } else {
+      //     return ListView.builder(
+      //       itemCount: (snapshot.data!.length / 2).ceil(),
+      //       itemBuilder: (context, index) {
+      //         if (snapshot.data!.length % 2 != 0 && index == (snapshot.data!.length - 1) / 2) {
+      //           return TableRowWidget(
+      //             rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 1),
+      //           );
+      //         }
+      //         return TableRowWidget(
+      //           rowImageUrls: snapshot.data!.sublist(index * 2, (index * 2) + 2),
+      //         );
+      //       },
+      //     );
+      //   }
+      // },
+    // );
+  // }
+// }
 
 class TableRowWidget extends StatelessWidget {
   final List<String> rowImageUrls;
@@ -119,10 +119,11 @@ class ImageCell extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () => {
-              Navigator.pushNamed(context, '/images', arguments: {'imageUrl': imageUrl})
+              Navigator.pushNamed(context, '/selected-image')
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),

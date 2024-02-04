@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'chat_screen.dart';
+import 'UploadPdf_Python.dart';
 
-class MyRecognisePage extends StatelessWidget {
+class MyDisplayTextPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,11 +18,11 @@ class MyRecognisePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MyChatPage(initialText: 'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.'))
+                  Navigator.pushNamed(
+                    context, '/chat', arguments: {'text': 'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.'}
                   );
                 },
-                child: Text('Go to Second Page'),
+                child: Text('Send to Chat Bot'),
               ),
             ],
           ),

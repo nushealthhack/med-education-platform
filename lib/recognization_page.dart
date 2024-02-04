@@ -6,23 +6,32 @@ class MyRecognisePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Text Page')),
+        appBar: AppBar(title: Text('Extracted Text Page'),
+        backgroundColor: Colors.green,
+        ),
         body: Center(
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.',
+          Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+                'Indication: Screening ULTRASOUND PELVIS: COMPARISON: No previous study is available on the system for comparison at the time of reporting.FINDINsdfsdfsdfsdfsdfsdfsdfsdfwerwerGS:Transabdominal scans were obtained.Menopausal.The uterus is anteverted and is normal in size and echogenicity. It measures 6.6 x 4.4 x 2.8 cm. Thereare no focal lesions. The endometrium is homogenous and is not thickened, measuring 0.5 cm.The ovaries were not visualised .No adnexal masses or free fluid are seen in the pelvis.Comment: Normal ultrasound pelvis.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
+          ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MyChatPage(initialText: 'The uterus is tilted forward (anteverted) and is of normal size and appearance (echogenicity). Its dimensions are 6.6 cm in length, 4.4 cm in width, and 2.8 cm in depth. There are no concerning areas or growths (focal lesions) within the uterus. The endometrium, which is the lining of the uterus, appears uniform (homogenous) and is not thickened. The thickness of the endometrium is 0.5 cm, which is within the normal range. Overall, this description suggests that the uterus and endometrium appear normal on this examination.'))
+                    context, MaterialPageRoute(builder: (context) => MyChatPage(initialText: 'Indication: Screening ULTRASOUND PELVIS: COMPARISON: No previous study is available on the system for comparison at the time of reporting.FINDINsdfsdfsdfsdfsdfsdfsdfsdfwerwerGS:Transabdominal scans were obtained.Menopausal.The uterus is anteverted and is normal in size and echogenicity. It measures 6.6 x 4.4 x 2.8 cm. Thereare no focal lesions. The endometrium is homogenous and is not thickened, measuring 0.5 cm.The ovaries were not visualised .No adnexal masses or free fluid are seen in the pelvis.Comment: Normal ultrasound pelvis.'))
                   );
                 },
-                child: Text('Go to Second Page'),
+                child: Text('Send to Chat Bot'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.green,
+                ),
               ),
             ],
           ),

@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat With Easy Medicine Bot'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.green,
       ),
       body: Column(
         children: [
@@ -90,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       // Make a POST request to the API with the entered text
       try {
-        var access_token = "ya29.a0AfB_byC0ttqUK-e03SgPR6Vrz76q6YS3kZ9R-3_ANqzFOj7gwNNpFw50SFMEZkep79jZvWLoLY_j38G49LJ38ibiLsDLQ9EKVxDXSgMyBPLpdI4bCIKJORCXi7Rfzf_N6QhRvErAWFWqysAZCc5i6SAbmrgKGUT55P7A9pywGLVQDFIaTAuDNh8RAKYaSkbeRkYikePo6GK5oUYSMP7kNqxf5Je9RO4GJhg4RgeXutgfsXcXVxKHtU1tmF0ldqxUtGnw4mzsugzhUXc0WX-KagGha9O-qJ9yzSTT3nbQSOg38FvuXy-Tn7o78PsT0mukhKjQCNFkQK9GLnahOdMDO8tDiuU-9SApmK_0QN81qD4qAbz7eA_CfUJqrefpVW-WL0VrOMFwSY1z6Apayapkgk_HHvVh3JIaCgYKAXcSARMSFQHGX2Miod4XkKee_l3vDr5jvCuAyg0422";
+        var access_token = "ya29.a0AfB_byDAjQ-k7edTDztIdo3oA4telGPLp0mONOVobh87I9C-feWxMVkROnfF_bEMgD_mpmDteqAyB5xbMM6rrA9MN785Zcwe3dEOTliSL_jZrEAvBbEn5QAXV6TZ4H3c1aclKbOMzehfABFSKQ4jMT0FY3HIhFO-LI8xzNltw5AD-2fR-PFIrj4woXdBL3TqEF5eio79OL8jZRZFgl0VvZvQbiafjl8yofMzjSr1QqMsSv6tN5fFePiMnwqNUKjJbrohmVqCL5pRy8u_sjLSblhKxxkvo6bIlkr24xJykcm9onr4Wqp27muKAuNllpy21yCA8ubeQHZLyN88Dj9OT15m-fvkNjRX2yJX2XcgDQEtS7qmTQ61BGCqUar6DWMcibT97UsX8t9myetxsD4n963Oqhb40Mb8aCgYKAeYSARMSFQHGX2Mi9t3zWcaXR6Jkkm1XoUlE5w0423";
         var url = "https://us-central1-aiplatform.googleapis.com/v1/projects/healthhack-412317/locations/us-central1/publishers/google/models/chat-bison:predict?access_token=$access_token";
         print(url);
         final response = await http.post(

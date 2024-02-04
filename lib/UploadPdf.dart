@@ -6,14 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image/image.dart' as imglib;
-import 'package:med_education_platform/modal_dialog.dart';
-import 'package:med_education_platform/recognization_page.dart';
-import 'package:med_education_platform/Utils/image_cropper_page.dart';
-import 'package:med_education_platform/Utils/image_picker_class.dart';
 import 'package:flutter/services.dart';
 
 class UploadPdfPage extends StatefulWidget {
@@ -30,11 +25,11 @@ class UploadPdfPageState extends State<UploadPdfPage> {
 
   final InputImageFormat nv21 = InputImageFormat.nv21;
 
-  Future<void> _pickPdf() async {
+  Future<void> _pickImage() async {
     _pickedFile = (await FilePicker.platform.pickFiles(
       withData: true,
       type: FileType.custom,
-      allowedExtensions: ['pdf'],
+      allowedExtensions: ['png','jpg','jpeg'],
     ))!;
   }
 
@@ -135,17 +130,17 @@ class UploadPdfPageState extends State<UploadPdfPage> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () async {
-                      await _pickPdf();
+                      await _pickImage();
                     },
-                    child: Text('Pick PDF'),
+                    child: Text('Pick Image'),
                   ),
-                  SizedBox(height: 16),
-                ElevatedButton(
-                    onPressed: () async {
-                      await _uploadPdf();
-                    },
-                    child: Text('Upload PDF'),
-                  ),
+                  // SizedBox(height: 16),
+                // ElevatedButton(
+                //     onPressed: () async {
+                //       await _uploadPdf();
+                //     },
+                //     child: Text('Upload PDF'),
+                //   ),
                   Text(
                     '$_state',
                     style: Theme.of(context).textTheme.headlineMedium,
@@ -155,7 +150,7 @@ class UploadPdfPageState extends State<UploadPdfPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 16),
+
                   ElevatedButton(
                     onPressed: () async {
                         Navigator.pushNamed(context, '/recognise-page');
